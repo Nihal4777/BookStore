@@ -4,6 +4,27 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  
+  <context-param>
+  	<param-name>admin_username</param-name>
+  	<param-value>admin@nihal.dev</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>admin_password</param-name>
+  	<param-value>admin</param-value>
+  </context-param>
+   <context-param>
+  	<param-name>shipping</param-name>
+  	<param-value>50</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>RAZORPAY_KEY</param-name>
+  	<param-value>rzp_test_f9zZCIpzWQDD5x</param-value>
+  </context-param>
+  <context-param>
+  	<param-name>RAZORPAY_SECRET</param-name>
+  	<param-value>RRjaL2d3BQHlbs3DLRBnnKyr</param-value>
+  </context-param>  
   <filter>
   	<filter-name>AuthFilter</filter-name>
   	<display-name>AuthFilter</display-name>

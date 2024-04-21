@@ -1,3 +1,4 @@
+<%@page import="dev.nihal.User"%>
 <%@page import="java.sql.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1" isELIgnored="false"%>
@@ -5,7 +6,7 @@
 
 Class.forName("com.mysql.jdbc.Driver");
 Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/book_store","root","");
-PreparedStatement ps=con.prepareStatement("select * from books where id=?");
+PreparedStatement ps=con.prepareStatement("select * from books left join cart on books.id=cart.book_id where books.id=?;");
 ps.setInt(1,Integer.parseInt(request.getParameter("bookID")));
 ResultSet rs=ps.executeQuery();
 rs.next();
@@ -43,7 +44,12 @@ rs.next();
 				<td colspan="3"><span id="amt">&#x20B9;<%=rs.getString("price")%></span></td>
 			</tr>
 			<tr>
-				<td><a href="javascript:void(0)" id="btn">Add Cart</a></td>
+				<td>
+					<%=rs.getInt("cart.user_id")==0?"<a href='addToCart.jsp?bookID="+rs.getInt("books.id")+"' id='btn'>Add Cart<//a>":
+						"<a href='cart.jsp' id='btn'>Go to Cart<//a>" %>
+					
+				
+				</td>
 				<td><span><a href="" id="btn">Free
 							Sample</a></span></td>
 				<td><span><a href="javascript:void(0)" id="btn">Purchase</a></span>

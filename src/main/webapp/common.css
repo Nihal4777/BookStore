@@ -1,0 +1,36 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+body{
+    background-image: url("./bg.jpg");
+    background-size:cover;
+    background-repeat: no-repeat;
+    /* height: 100vh; */
+    background-position: center;
+    background-attachment: fixed;
+}
+.app{
+	margin:15px 25px;
+	 background-color: rgba(140, 156, 161, 0.411);
+	 box-shadow: 1px 1px 1px 2px grey; 
+     padding: 15px;
+}
+.block{
+	display: flex;
+	align-items: center;
+	gap: 40px
+}
+.detailsDiv{
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	width: 100%;
+}
+.bold{
+	font-weight: bold;
+}
+.deleteBtn{
+	align-self: flex-end;
+}

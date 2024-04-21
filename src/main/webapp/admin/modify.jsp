@@ -17,7 +17,8 @@
 
 <body>
 	<nav>
-		<a href="login.php?logout=1" id="logout">Logout</a> <a
+		<a href="../logout.jsp" id="logout">Logout</a>
+		 <a
 			href="index.php" id="logout" style="margin-right: 2px;">Insert
 			New Records</a>
 	</nav>

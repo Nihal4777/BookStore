@@ -8,50 +8,50 @@
 if (request.getMethod().equalsIgnoreCase("POST")) {
 	// Retrieving username and password from the request
 	String username = request.getParameter("uname");
-	String password = request.getParameter("pwd");
+	String name = request.getParameter("name");
+	String pwd = request.getParameter("pwd");
+	String cpwd = request.getParameter("cpwd");
+	if(!pwd.equals(cpwd)){
+		response.sendRedirect("signup.jsp?er=Confirm Does'nt Match");
+		return ;
+	}
 	checkFirst(pageContext);
 	Class.forName("com.mysql.jdbc.Driver");
 	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_store", "root", "");
 	Statement stmt = con.createStatement();
-	PreparedStatement ps = con.prepareStatement("select * from users where email=? and password=?");
+	PreparedStatement ps = con.prepareStatement("select * from users where email=?");
 	ps.setString(1, username);
-	ps.setString(2,stringToHash(password));
 	ResultSet rs = ps.executeQuery();
 	if (rs.next()) {
-		User user=new User();
-		user.setId(rs.getInt("id"));
-		user.setName(rs.getString("name"));
-		user.setEmail(rs.getString("email"));
-		user.setIs_admin(rs.getBoolean("is_admin"));
-		session.setAttribute("user", user);
-		if(user.getIs_admin()){
-			response.sendRedirect("admin/");
-			return ;
-		}
-		response.sendRedirect("./");
-		
-	} else {
-		response.sendRedirect("login.jsp");
-
+		response.sendRedirect("signup.jsp?er=User Exists");
+	}else{
+		ps = con.prepareStatement("insert into users(name,email,password,is_admin)values(?,?,?,false);");
+		ps.setString(1, name);
+		ps.setString(2, username);
+		ps.setString(3, stringToHash(pwd));
+		ps.executeUpdate();
+		response.sendRedirect("./login.jsp");
 	}
+		
+		
 }
 %>
-<%!void checkFirst(PageContext pageContext) throws Exception {
-		ResultSet r;
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_store", "root", "");
-		Statement stmt = con.createStatement();
-		r = stmt.executeQuery("select count(*) from users where is_admin=true");
-		r.next();
-		if (r.getInt(1) < 1) {
-			String admin_hash = stringToHash(pageContext.getServletContext().getInitParameter("admin_password"));
-			stmt.executeUpdate("insert into users(name,email,password,is_admin) values('Admin','"
-					+ pageContext.getServletContext().getInitParameter("admin_username") + "','" + admin_hash + "',true"
-					+ ")");
-		}
-
+<%!
+void checkFirst(PageContext pageContext) throws Exception {
+	ResultSet r;
+	Class.forName("com.mysql.jdbc.Driver");
+	Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/book_store", "root", "");
+	Statement stmt = con.createStatement();
+	r = stmt.executeQuery("select count(*) from users where is_admin=true");
+	r.next();
+	if (r.getInt(1) < 1) {
+		String admin_hash = stringToHash(pageContext.getServletContext().getInitParameter("admin_password"));
+		stmt.executeUpdate("insert into users(name,email,password,is_admin) values('Admin','"
+				+ pageContext.getServletContext().getInitParameter("admin_username") + "','" + admin_hash + "',true"
+				+ ")");
 	}
-	
+
+}
 private String stringToHash(String str) throws Exception{
 	
 	MessageDigest md=MessageDigest.getInstance("SHA-256");
@@ -81,21 +81,24 @@ private String stringToHash(String str) throws Exception{
 <link
 	href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap"
 	rel="stylesheet">
-<title>Login</title>
+<title>Sign Up</title>
 </head>
 
 <body>
 	<section class="main">
-		<h1>Login</h1>
+		<h1>Sign Up</h1>
 		<form method="POST">
-			<label for="uname">Username:</label><br> <input type="text"
+		<label for="name">Name:</label><br> <input type="text"
+				name="name" placeholder="Enter your username" required><br>
+			<label for="uname">Email:</label><br> <input type="text"
 				name="uname" placeholder="Enter your username" required><br>
 			<label for="pwd">Password:</label><br> <input type="password"
 				name="pwd" placeholder="Enter your password" required><br>
+				<label for="cpwd">Confirm Password:</label><br> <input type="password"
+				name="cpwd" placeholder="Confirm your password" required><br>
 			<!-- <div id="rm">
 				<input type="checkbox" name="remember"> Remember me<br>
-			</div> -->
-			<p>New user?</p> <a href="signup.jsp">Sign Up Now</a>
+			</div> --><p>Already an user?</p> <a href="login.jsp">Login</a>
 			<input type="submit" name="login" value="Login">
 		</form>
 	</section>
