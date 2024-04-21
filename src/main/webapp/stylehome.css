@@ -1,0 +1,50 @@
+*{
+    padding:0;
+    margin:0;
+}
+body{
+     background-image: url("./1591475603-CF70d.webp" );
+     /* background-image: url("bghome.jpg"); */
+    background-size: 100% 100%;
+    min-height: 100vh;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin:auto;
+    width:99.9%;
+}
+#login{
+    text-decoration: none;
+    color:black;
+    font-size:22px;
+    padding:5px 15px;
+    background-color:rgb(173, 168, 168);
+    border-radius: 0px 0px 5px 5px;
+    color: white;
+    float:right;
+}
+#login:hover{
+    background-color: rgba(173, 168, 168, 0.753);
+}
+#block
+{
+    clear: right;
+	float:left;
+	padding:5px;
+	margin:10px;
+	/* backdrop-filter: blur(5px); */
+    background-color:rgba(211, 211, 211, 0.473);
+	height:250px;
+    cursor: pointer;
+    width:160px;
+    text-align:center;
+}
+#block>img{
+    height:200px;
+}
+#block:hover{
+    
+    background-color:rgba(216, 214, 214, 0.705);
+}
+#block>p{
+    color:black;
+}
